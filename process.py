@@ -42,8 +42,8 @@ product_attributes = {
     'HCHO': ['tropospheric_HCHO_column_number_density', 'tropospheric_HCHO_column_number_density_validity'],
     'NO2': ['tropospheric_NO2_column_number_density', 'tropospheric_NO2_column_number_density_validity'],
     'SO2': ['SO2_column_number_density', 'SO2_column_number_density_validity'],
-    'CH4': ['CH4_column_volume_mixing_ratio_dry_air', 'validity'],
-    'CO': ['CO_column_number_density', 'validity']
+    'CH4': ['CH4_column_volume_mixing_ratio_dry_air', 'CH4_column_volume_mixing_ratio_dry_air_validity'],
+    'CO': ['CO_column_number_density', 'CO_column_number_density_validity']
 }
 
 # Process every product file using the HARP processing steps
@@ -63,7 +63,7 @@ for product, files in l2_product_files.items():
                 harp.export_product(harp_L2_L3, l3_product_path, file_format='netcdf')
                 print(f'{file} successfully converted to L3.')
             except Exception as error:
-                print(f'Error: {error}. Skipping processing for {file}.')
+                print(f'Error: {error}. Skipping processing for {file}.') # "Error: product contains no variables, or variables without data." when no cells of a product are greater than the minimum validity threshold
     print(f'All L2 {product} files converted to L3')
 
 # Define L3 products that have nrt and offl availability

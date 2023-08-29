@@ -70,7 +70,11 @@ def preprocess(ds):
 # Iterate through every product and generate one dataset containing average concentration values
 for product, files in l3_product_files.items():
     print(f'Reading {product} files...')
-    L3_1W = xr.open_mfdataset(files, combine='nested', concat_dim='time', preprocess=preprocess, chunks={'time':100})
+    try:
+        L3_1W = xr.open_mfdataset(files, combine='nested', concat_dim='time', preprocess=preprocess, chunks={'time':100})
+    except Exception as error:
+        print(f'Error: {error}.')
+        continue
     L3_1W = L3_1W.sortby('time')
     L3_1W = L3_1W.resample(time='1D').mean(dim='time', skipna=None)
     L3_1W_mean = L3_1W.mean(dim='time')
