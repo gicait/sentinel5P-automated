@@ -2,9 +2,6 @@ import os
 from datetime import datetime, timedelta
 
 import harp
-import matplotlib
-
-matplotlib.use('TkAgg')
 
 # Define directory containing the raw files
 raw_dir = 'Products_Raw/'

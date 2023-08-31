@@ -1,5 +1,7 @@
-scripts = ["query.py", "process.py", "multitemporal.py"]
+# Define list of scripts in the order to be executed in.
+scripts = ['query.py', 'process.py', 'multitemporal.py']
 
+# Execute each script in the list
 for script in scripts:
     print(f'executing {script}')
     try:
@@ -7,6 +9,6 @@ for script in scripts:
         exec(script_code)
         print(f'{script} successfully executed')
     except FileNotFoundError:
-        print(f"{script} not found.")
+        print(f'{script} not found.')
     except Exception as error:
-        print(f"Error executing {script}: {error}")
+        print(f'Error executing {script}: {error}')

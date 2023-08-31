@@ -174,5 +174,5 @@ images = {
 for product, files in output_files.items():
     for filename in files:
         images[product].append(imageio.imread(filename))
-    imageio.mimsave(f'Output/{product}.gif', images[product], duration=1000)
+    imageio.mimsave(f'Output/{product}.gif', images[product], loop=0, duration=1000)
     print(f'{product}.gif generated')
