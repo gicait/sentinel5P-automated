@@ -55,11 +55,11 @@ file_attributes = {
 
 # Define attributes for each pollutant (Product: [HARP field name, description, min value, max value, unit])
 product_attributes = {
-    'HCHO': ['tropospheric_HCHO_column_number_density', 'Tropospheric HCHO column number density', 0, 0.0007, 'mol / m$^{2}$'],
-    'NO2': ['tropospheric_NO2_column_number_density', 'Tropospheric vertical column of NO2', 0, 0.0002, 'mol / m$^{2}$'],
-    'SO2': ['SO2_column_number_density', 'SO2 vertical column density', 0, 0.003, 'mol / m$^{2}$'],
-    'CH4': ['CH4_column_volume_mixing_ratio_dry_air', 'Column averaged dry air mixing ratio of methane', 1400, 2000, 'ppbv'],
-    'CO': ['CO_column_number_density', 'Vertically integrated CO column density', 0, 0.05, 'mol / m$^{2}$']
+    'HCHO': ['tropospheric_HCHO_column_number_density', 'Tropospheric HCHO column number density', 0, 0.0007, 'mol / m$^{2}$', 'troposphere'],
+    'NO2': ['tropospheric_NO2_column_number_density', 'Tropospheric vertical column of NO2', 0, 0.0002, 'mol / m$^{2}$', 'troposphere'],
+    'SO2': ['SO2_column_number_density', 'SO2 vertical column density', 0, 0.003, 'mol / m$^{2}$', 'troposphere'],
+    'CH4': ['CH4_column_volume_mixing_ratio_dry_air', 'Column averaged dry air mixing ratio of methane', 1400, 2000, 'ppbv', 'atmosphere'],
+    'CO': ['CO_column_number_density', 'Vertically integrated CO column density', 0, 0.05, 'mol / m$^{2}$', 'atmosphere']
 }
 
 # Create a time coordinate with np datatype datetime64. Important to allow time indexing later
@@ -105,7 +105,7 @@ for product, files in l3_product_files.items():
                            box_alpha=0.4))
 
     # Add text
-    ax.text(0, 1.07, f'Average {product} concentrations', fontsize=17, transform=ax.transAxes)
+    ax.text(0, 1.07, f'Average top of {product_attributes[product][5]} {product} concentrations', fontsize=17, transform=ax.transAxes)
     if product in offl_only_products:
         start_date = two_weeks_ago
         end_date = one_week_ago
