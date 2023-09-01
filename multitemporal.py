@@ -174,5 +174,9 @@ images = {
 for product, files in output_files.items():
     for filename in files:
         images[product].append(imageio.imread(filename))
-    imageio.mimsave(f'Output/{product}.gif', images[product], loop=0, duration=1000)
+    try:
+        imageio.mimsave(f'Output/{product}.gif', images[product], loop=0, duration=1000)
+    except ValueError as error:
+        print(f'Error generating {product}.gif: {error}. At least one {product} output required to create an animated GIF')
+        continue
     print(f'{product}.gif generated')
