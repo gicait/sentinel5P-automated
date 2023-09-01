@@ -61,7 +61,7 @@ for product, files in l2_product_files.items():
                 print(f'{file} successfully converted to L3.')
             except Exception as error:
                 print(f'Error: {error}. Skipping processing for {file}.') # "Error: product contains no variables, or variables without data." when no cells of a product are greater than the minimum validity threshold
-    print(f'{product} L3 processing complete')
+    print(f'All L2 {product} files converted to L3')
 
 # Define L3 products that have nrt and offl availability
 offl_nrt_products = [processed_dir + filename for filename in os.listdir(processed_dir) if not filename.startswith('S5P_OFFL_L3__CH4____')]
