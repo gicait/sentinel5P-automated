@@ -7,7 +7,7 @@ from sentinelsat import SentinelAPI, read_geojson, geojson_to_wkt
 api = SentinelAPI('s5pguest', 's5pguest', 'https://s5phub.copernicus.eu/dhus/')
 
 # Define aoi as wkt
-area = geojson_to_wkt(read_geojson('thailand_boundary_simple.geojson'))     # geojson downloaded from: https://cartographyvectors.com/map/1048-thailand-detailed-boundary
+area = geojson_to_wkt(read_geojson('Support_Files/thailand_boundary_simple.geojson'))     # geojson downloaded from: https://cartographyvectors.com/map/1048-thailand-detailed-boundary
 
 # Define time variables for filtering
 current_date = datetime.now()
