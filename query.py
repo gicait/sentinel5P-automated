@@ -38,14 +38,7 @@ os.makedirs(raw_dir, exist_ok=True)
 api.download_all(query_nrt_offl_products, directory_path=raw_dir)
 api.download_all(query_offl_only_products, directory_path=raw_dir)
 
-# Convert to df and print names of downloaded products
-nrt_offl_products_df = api.to_dataframe(query_nrt_offl_products)
-print('Downloaded nrt and offl products:\n', nrt_offl_products_df.to_string())
-print(query_nrt_offl_products.keys())
-
-offl_only_products_df = api.to_dataframe(query_offl_only_products)
-print('Downloaded offl only products:\n', offl_only_products_df.to_string())
-print(query_offl_only_products.keys())
+print('Successfully downloaded all product files\nChecking for outdated product files...')
 
 # Define products that only have nrt and offl availability
 offl_nrt_products = [raw_dir + filename for filename in os.listdir(raw_dir) if not filename.startswith('S5P_OFFL_L2__CH4____')]
