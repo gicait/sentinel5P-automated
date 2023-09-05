@@ -1,3 +1,10 @@
+import os
+
+# Set working directory
+abspath = os.path.abspath(__file__)
+dir_name = os.path.dirname(abspath)
+os.chdir(dir_name)
+
 # Define list of scripts in the order to be executed in.
 scripts = ['query.py', 'process.py', 'multitemporal.py']
 
