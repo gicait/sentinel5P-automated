@@ -13,7 +13,6 @@ import pandas as pd
 import xarray as xr
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from matplotlib_scalebar.scalebar import ScaleBar
-from sklearn.metrics.pairwise import haversine_distances
 
 # Define directories containing the raw and processed files
 processed_dir = 'Products_Processed/'
@@ -97,12 +96,23 @@ for product, files in l3_product_files.items():
                               x='longitude', y='latitude', zorder=3)
     im.colorbar.remove()    # (colorbar added later)
 
+    # Define coordinates of two points (for scalebar)
+    lat_A = 14 * np.pi / 180.
+    lon_A = 100 * np.pi / 180.
+    lat_B = 14 * np.pi / 180.
+    lon_B = 101 * np.pi / 180.
+
+    # Apply haversine formula (for scalebar)
+    dlat = lat_B - lat_A
+    dlon = lon_B - lon_A
+    a = np.sin(dlat / 2) ** 2 + np.cos(lat_A) * np.cos(lat_B) * np.sin(dlon / 2) ** 2
+    c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1 - a))
+    distance = 6371000 * c
+
     # Add scalebar
-    A = [100 * np.pi / 180., 14 * np.pi / 180.]  # Latitude of interest ~14 deg, longitude 100
-    B = [101 * np.pi / 180., 14 * np.pi / 180.]  # Latitude of interest ~14 deg, longitude 101
-    dx = 6371000 * haversine_distances([A, B])[0, 1]
-    ax.add_artist(ScaleBar(dx=dx, units='m', length_fraction=0.2, location='lower right', sep=5, pad=0.4, border_pad=1,
-                           box_alpha=0.4))
+    ax.add_artist(
+        ScaleBar(dx=distance, units='m', length_fraction=0.2, location='lower right', sep=5, pad=0.4, border_pad=1,
+                 box_alpha=0.4))
 
     # Add text
     ax.text(0, 1.07, f'Average top of {product_attributes[product][5]} {product} concentrations', fontsize=17, transform=ax.transAxes)
@@ -138,7 +148,7 @@ for product, files in l3_product_files.items():
     cbar.outline.set_visible(False)
 
     # Set plot frame
-    gl = ax.gridlines(draw_labels=True, linewidth=1, color='gray', alpha=0.3, linestyle=':')
+    gl = ax.gridlines(draw_labels=True, linewidth=1, color='gray', alpha=0.3, linestyle=':', zorder=3)
     gl.top_labels = False
     gl.right_labels = False
     gl.xformatter = LONGITUDE_FORMATTER
@@ -149,7 +159,7 @@ for product, files in l3_product_files.items():
     os.makedirs(img_output_dir, exist_ok=True)
 
     # Save the image in the new directory
-    plt.savefig(f'{img_output_dir}/{product}_{start_date.strftime("%Y_%m_%d")}-{end_date.strftime("%Y_%m_%d")}.png', bbox_inches='tight', dpi=600)
+    plt.savefig(f'{img_output_dir}/{product}_{start_date.strftime("%Y_%m_%d")}-{end_date.strftime("%Y_%m_%d")}.png', bbox_inches='tight', dpi=600, transparent=False)
     print('Done')
 
 # Create a gif
