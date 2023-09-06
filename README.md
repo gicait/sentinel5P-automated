@@ -70,7 +70,7 @@ After processing, the L3 products are saved as NetCDF files. If it does not alre
 
 **Description:**
 
-This script takes care of averaging and visualizing the L3 processed data and should be executed after [`process.py`](process.py). The L3 product attributes, their description, value range and units are defined for the visualization. The value range may be adjusted if inadequate. The script iterates through each product, opening all product files and calculating the mean values for each cell of the attribute to be visualized. The results are plotted and saved as PNG images in the `Output/[Y_m_d]/` directory. The visualization leverages the [`cartopy`](https://github.com/SciTools/cartopy) library and can be modified based on preference. The script also creates a GIF animation of previous outputs in the `Output/` directory. If already present, the GIFs will be overwritten each time the script is run.
+This script takes care of averaging and visualizing the L3 processed data and should be executed after [`process.py`](process.py). The L3 product attributes, their description, value range and units are defined for the visualization. The value range may be adjusted if inadequate. The script iterates through each product, opening all product files and calculating the mean values for each cell of the attribute to be visualized. The results are plotted and saved as PNG images in the `Output/[Y_m_d]/` directory. The visualization is created using the [`cartopy`](https://github.com/SciTools/cartopy) library and can be modified based on use case/preference. The script also creates a GIF animation of all previous outputs of each product in the `Output/` directory. If already present, the GIFs will be overwritten each time the script is run.
 
 **Third party dependencies:**
 
@@ -82,7 +82,6 @@ This script takes care of averaging and visualizing the L3 processed data and sh
 - [`netcdf4`](https://github.com/Unidata/netcdf4-python)
 - [`numpy`](https://github.com/numpy/numpy)
 - [`pandas`](https://github.com/pandas-dev/pandas)
-- [`sklearn`](https://github.com/scikit-learn/scikit-learn)
 - [`xarray`](https://github.com/pydata/xarray)
 
 **Note:**
