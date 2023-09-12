@@ -184,8 +184,9 @@ images = {
 for product, files in output_files.items():
     for filename in files:
         images[product].append(imageio.imread(filename))
+    recent_images = images[product][-8:]    # Select the last 8 images to be used for the gif
     try:
-        imageio.mimsave(f'Output/{product}.gif', images[product], loop=0, duration=1000)
+        imageio.mimsave(f'Output/{product}.gif', recent_images, loop=0, duration=1000)
     except ValueError as error:
         print(f'Error generating {product}.gif: {error}. At least one {product} output required to create an animated GIF')
         continue
