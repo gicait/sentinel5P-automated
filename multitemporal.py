@@ -15,7 +15,7 @@ import xarray as xr
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from matplotlib_scalebar.scalebar import ScaleBar
 
-# Define weekly_directories containing the raw and processed files
+# Define directories containing the raw and processed files
 processed_dir = 'Products_Processed/'
 raw_dir = 'Products_Raw/'
 
