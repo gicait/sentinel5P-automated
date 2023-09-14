@@ -1,4 +1,5 @@
 import os
+import shutil
 from datetime import datetime, timedelta
 from glob import glob
 from os.path import join
@@ -22,6 +23,7 @@ raw_dir = 'Products_Raw/'
 current_date = datetime.now()
 one_week_ago = current_date - timedelta(days=7)
 two_weeks_ago = current_date - timedelta(days=14)
+eight_weeks_ago = current_date - timedelta(weeks=8)
 
 # Define offl only products
 offl_only_products = ['CH4']
@@ -162,9 +164,23 @@ for product, files in l3_product_files.items():
     plt.savefig(f'{img_output_dir}/{product}_{start_date.strftime("%Y_%m_%d")}-{end_date.strftime("%Y_%m_%d")}.png', bbox_inches='tight', dpi=600, transparent=False)
     print('Done')
 
-# Create a gif
+# Get weekly output directories
 output_dir = 'Output/'
+weekly_directories = [output_dir + item for item in os.listdir(output_dir) if os.path.isdir(os.path.join(output_dir, item))]
 
+# Delete outputs that are over 8 weeks old
+for directory in sorted(weekly_directories):
+    try:
+        directory_name = os.path.basename(directory)
+        directory_date = datetime.strptime(directory_name, '%Y_%m_%d')
+    except ValueError as error:
+        print(f'Error: {error}.')
+        continue
+    if directory_date < eight_weeks_ago:
+        shutil.rmtree(directory)
+        print(f'Deleted: {directory}')
+
+# Create a gif
 output_files = {
     'HCHO': [filename for filename in sorted(list(glob(join(output_dir, '**', '*HCHO*.png'), recursive=True)))],
     'NO2': [filename for filename in sorted(list(glob(join(output_dir, '**', '*NO2*.png'), recursive=True)))],
@@ -191,3 +207,4 @@ for product, files in output_files.items():
         print(f'Error generating {product}.gif: {error}. At least one {product} output required to create an animated GIF')
         continue
     print(f'{product}.gif generated')
+
