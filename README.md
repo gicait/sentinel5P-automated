@@ -1,6 +1,6 @@
 # Automated Sentinel-5P Data Pipeline for Pollution Monitoring
 
-<img src="Sample_Output/NO2.gif" alt="Thailand NO2 concentrations" width="500"/>
+<img src="Output/NO2.gif" alt="Thailand NO2 concentrations" width="500"/>
 
 ## Usage
 
