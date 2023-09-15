@@ -37,7 +37,7 @@ All products are downloaded as NetCDF files. If it does not already exist, the s
 
 **Note:**
 
-- By default, this script requires the GeoJSON file [`thailand_boundary_simple.geojson`](thailand_boundary_simple.geojson) to be in the `Support_Files/` directory to define the AOI. To use a different GeoJSON file, specify the file path in line 10.
+- By default, this script requires the GeoJSON file [`thailand_boundary_simple.geojson`](Support_Files/thailand_boundary_simple.geojson) to be in the `Support_Files/` directory to define the AOI. To use a different GeoJSON file, specify the file path in line 10.
 
 ---
 
@@ -70,7 +70,7 @@ After processing, the L3 products are saved as NetCDF files. If it does not alre
 
 **Description:**
 
-This script takes care of averaging and visualizing the L3 processed data and should be executed after [`process.py`](process.py). The L3 product attributes, their description, value range and units are defined for the visualization. The value range may be adjusted if inadequate. The script iterates through each product, opening all product files and calculating the mean values for each cell of the attribute to be visualized. The results are plotted and saved as PNG images in the `Output/[Y_m_d]/` directory. The visualization is created using the [`cartopy`](https://github.com/SciTools/cartopy) library and can be modified based on use case/preference. The script also creates a GIF animation of previous outputs for each product in the `Output/` directory. If already present, the GIFs will be overwritten each time the script is run. By default, the eight most recent outputs are included in the GIF.
+This script takes care of averaging and visualizing the L3 processed data and should be executed after [`process.py`](process.py). The L3 product attributes, their description, value range and units are defined for the visualization. The value range may be adjusted if inadequate. The script iterates through each product, opening all product files and calculating the mean values for each cell of the attribute to be visualized. The results are plotted and saved as PNG images in the `Output/[Y_m_d]/` directory. The visualization is created using the [`cartopy`](https://github.com/SciTools/cartopy) library and can be modified based on use case/preference. By default, any `Output/[Y_m_d]/` directories older than eight weeks are deleted to save space.  The script also creates a GIF animation of previous outputs for each product in the `Output/` directory. If already present, the GIFs will be overwritten each time the script is run. By default, the eight most recent outputs are included in the GIF.
 
 **Third party dependencies:**
 
