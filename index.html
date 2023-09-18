@@ -1,58 +1,109 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>Automated Sentinel-5P Data Pipeline for Pollution Monitoring</title>
-    <style>
-        img {
-            width: 30%; /* 30% for 3 images on one line */
-            margin: 1%;
-            display: inline-block;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <title>Automated Sentinel-5P Data Pipeline for Pollution Monitoring</title>
+        <style>
+            img {
+                width: 30%; /* 30% for 3 images on one line */
+                margin: 1%;
+                display: inline-block;
+            }
 
-        .containerHeading {
-            text-align: center;
-            margin: 20px;
-        }
-        
-        .containerParagraph {
-            text-align: center;
-            margin: 0 auto;
-            width: 700px;
-            word-wrap: break-word;
-        }
+            ul {
+                text-align: left;
+                margin-left: 0%;
+                list-style-type: square;
+                list-style-position: inside;
+                line-height: 130%;
+            }
+            
+            ol {
+                text-align: left;
+                margin-left: 0%;
+                list-style-position: inside;
+                line-height: 130%;
+            }
 
-        .footer {
-            text-align: center;
-            background-color: #ffffff;
-            padding: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="containerHeading">
-        <h1>Automated Sentinel-5P Data Pipeline for Pollution Monitoring</h1>
-    </div>
-    <div class="containerParagraph">
-        <p>
-            asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfaasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfaasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfaasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf    
-        </p>
-    </div>
+            .containerHeading {
+                text-align: center;
+                margin: 20px;
+            }
 
-    <img src="Output/NO2.gif" alt="NO2">
-    <img src="Output/HCHO.gif" alt="HCHO">
-    <img src="Output/CO.gif" alt="CO">
-    <br>
-    <img src="Output/SO2.gif" alt="SO2">
-    <img src="Output/CH4.gif" alt="CH4">
+            .containerParagraph {
+                text-align: justify;
+                margin: 0 auto;
+                width: 700px;
+                word-wrap: break-word;
+            }
 
-    <div class="footer">
-        <p>
-            2023 
-            <a href="https://geoinfo.ait.ac.th/" target="blank">Geoinformatics Center</a> |
-            <a href="https://ait.ac.th/" target="blank">Asian Institute of Technology</a> |
-            <a href="https://github.com/gicait/sentinel5P-automated" target="blank">GitHub Repository</a>
-        </p>
-    </div>
-</body>
+            .footer {
+                text-align: center;
+                background-color: #ffffff;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="containerHeading">
+            <h1>Automated Sentinel-5P Data Pipeline for Pollution Monitoring</h1>
+            <p><strong>
+                    <a href="https://geoinfo.ait.ac.th/" target="blank">Geoinformatics Center</a> |
+                    <a href="https://ait.ac.th/" target="blank">Asian Institute of Technology</a> |
+                    <a href="https://github.com/gicait/sentinel5P-automated" target="blank">GitHub Repository</a>
+                </strong></p>
+        </div>
+        <div class="containerParagraph">
+            <p>
+            <p><strong>About This Project:</strong>
+                Atmospheric emissions are of global importance for the 
+                environment, human health, and overall quality of life. 
+                To streamline the process of monitoring emissions above Thailand
+                and the surrounding areas, an automatic pipeline to download, 
+                process, and visualize Sentinel-5P data is created. 
+            <p><strong>Data:</strong>
+            The atmospheric data used in this project is captured by the TROPOMI
+            instrument onboard the <a href="https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-5p">Sentinel-5P satellite</a>,  
+            part of the European Space Agency&#39;s Copernicus program.
+            
+            <p>
+            The following precursor and greenhouse gases are monitored:
+            </p>
+            
+            <ul>
+                <li>Nitrogen Dioxide (NO<sub>2</sub>)</li>
+                <li>Formaldehyde (HCHO)</li>
+                <li>Carbon Monoxide (CO)</li>
+                <li>Sulfur Dioxide (SO<sub>2</sub>)</li>
+                <li>Methane (CH<sub>4</sub>)</li>
+            </ul>
+            
+            <p><strong>Workflow:</strong>
+            The pipeline consists of three main parts:</p>
+            
+            <ol>
+                <li>Querying and downloading Level 2 Sentinel-5P data</li>
+                <li>Processing the downloaded Level 2 data into Level 3 data</li>
+                <li>Temporally-aggregating and visualizing the L3 processed data</li>
+            </ol>
+            These are split up into separate Python scripts (query.py, process.py, and multitemporal.py) and run consecutively. 
+            More detailed information for each script can be found on <a href="https://github.com/gicait/sentinel5P-automated" target="blank">GitHub</a>.
+        </div>
+
+        <img src="Output/NO2.gif" alt="NO2">
+        <img src="Output/HCHO.gif" alt="HCHO">
+        <img src="Output/CO.gif" alt="CO">
+        <br>
+        <img src="Output/SO2.gif" alt="SO2">
+        <img src="Output/CH4.gif" alt="CH4">
+
+        <div class="footer">
+            <p>
+                2023
+                <a href="https://geoinfo.ait.ac.th/" target="blank">Geoinformatics Center</a> |
+                <a href="https://ait.ac.th/" target="blank">Asian Institute of Technology</a> |
+                <a href="https://github.com/gicait/sentinel5P-automated" target="blank">GitHub Repository</a>
+            </p>
+        </div>
+    </body>
 </html>
