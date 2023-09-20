@@ -2,6 +2,24 @@
 
 <img src="Output/NO2.gif" alt="Thailand NO2 concentrations" width="500"/>
 
+**About:** To streamline the process of monitoring emissions above Thailand and the surrounding areas, an automatic pipeline to download, process, and visualize Sentinel-5P data is created.
+
+**Data:** The atmospheric data used in this project is captured by the TROPOMI instrument onboard the [Sentinel-5P satellite](https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-5p), part of the European Space Agency's Copernicus program.
+
+The following precursor and greenhouse gases are monitored:
+
+- Nitrogen Dioxide (NO<sub>2</sub>)
+- Formaldehyde (HCHO)
+- Carbon Monoxide (CO)
+- Sulfur Dioxide (SO<sub>2</sub>)
+- Methane (CH<sub>4</sub>)
+
+**Workflow:** The pipeline consists of three main parts:
+
+1. Querying and downloading Level 2 Sentinel-5P data
+2. Processing the downloaded Level 2 data into Level 3 data
+3. Temporally-aggregating and visualizing the L3 processed data
+
 ## Usage
 
 To execute the full processing pipeline, clone the repository, install the necessary dependencies and run [`execute.py`](execute.py). This will execute [`query.py`](query.py), [`process.py`](process.py), and [`multitemporal.py`](multitemporal.py) consecutively. The scripts can also be run manually one at a time. Make sure the scripts are all in the same folder if downloading manually. 
