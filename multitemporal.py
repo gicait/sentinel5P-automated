@@ -162,7 +162,7 @@ for product, files in l3_product_files.items():
     os.makedirs(img_output_dir, exist_ok=True)
 
     # Save the image in the new directory
-    plt.savefig(f'{img_output_dir}/{product}_{start_date.strftime("%Y_%m_%d")}-{end_date.strftime("%Y_%m_%d")}.jpg', bbox_inches='tight', dpi=300, transparent=False)
+    plt.savefig(f'{img_output_dir}/{product}_{start_date.strftime("%Y_%m_%d")}-{end_date.strftime("%Y_%m_%d")}.png', bbox_inches='tight', dpi=150, transparent=False)
     print('Done')
 
 # Create a single jpg containing all products
@@ -258,7 +258,7 @@ fig.text(
 )
 
 # Save the image in the Output/ directory
-plt.savefig(f'{output_dir}/all_products.jpg', bbox_inches='tight', dpi=300, transparent=False)
+plt.savefig(f'{output_dir}/all_products.jpg', bbox_inches='tight', dpi=600, transparent=False)
 print('Done')
 
 # Get weekly output directories
@@ -278,11 +278,11 @@ for directory in sorted(weekly_directories):
 
 # Create a gif
 output_files = {
-    'HCHO': [filename for filename in sorted(list(glob(join(output_dir, '**', '*HCHO*.jpg'), recursive=True)))],
-    'NO2': [filename for filename in sorted(list(glob(join(output_dir, '**', '*NO2*.jpg'), recursive=True)))],
-    'SO2': [filename for filename in sorted(list(glob(join(output_dir, '**', '*SO2*.jpg'), recursive=True)))],
-    'CH4': [filename for filename in sorted(list(glob(join(output_dir, '**', '*CH4*.jpg'), recursive=True)))],
-    'CO': [filename for filename in sorted(list(glob(join(output_dir, '**', '*CO*.jpg'), recursive=True)))]
+    'HCHO': [filename for filename in sorted(list(glob(join(output_dir, '**', '*HCHO*.png'), recursive=True)))],
+    'NO2': [filename for filename in sorted(list(glob(join(output_dir, '**', '*NO2*.png'), recursive=True)))],
+    'SO2': [filename for filename in sorted(list(glob(join(output_dir, '**', '*SO2*.png'), recursive=True)))],
+    'CH4': [filename for filename in sorted(list(glob(join(output_dir, '**', '*CH4*.png'), recursive=True)))],
+    'CO': [filename for filename in sorted(list(glob(join(output_dir, '**', '*CO*.png'), recursive=True)))]
 }
 
 images = {
@@ -300,7 +300,7 @@ for product, files in output_files.items():
     try:
         imageio.mimsave(f'Output/{product}.gif', recent_images, loop=0, duration=1000)
     except ValueError as error:
-        print(f'Error generating {product}.gif: {error}. At least one {product} output required to create an animated GIF')
+        print(f'Error generating {product}.gif: {error}')
         continue
     print(f'{product}.gif generated')
 
