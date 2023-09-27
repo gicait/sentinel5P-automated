@@ -15,9 +15,10 @@ import xarray as xr
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from matplotlib_scalebar.scalebar import ScaleBar
 
-# Define directories containing the raw and processed files
+# Define directories containing the raw and processed files and output directory
 processed_dir = 'Products_Processed/'
 raw_dir = 'Products_Raw/'
+output_dir = 'Output/'
 
 # Define time variables
 current_date = datetime.now()
@@ -83,7 +84,7 @@ for product, files in l3_product_files.items():
     L3_1W_col_mean = L3_1W_mean[attribute]
 
     # Plot the results
-    print(f'Plotting {product} concentration to PNG...')
+    print(f'Plotting {product} concentration to jpg...')
 
     # Define the data to plot
     data = L3_1W_col_mean
@@ -161,11 +162,106 @@ for product, files in l3_product_files.items():
     os.makedirs(img_output_dir, exist_ok=True)
 
     # Save the image in the new directory
-    plt.savefig(f'{img_output_dir}/{product}_{start_date.strftime("%Y_%m_%d")}-{end_date.strftime("%Y_%m_%d")}.png', bbox_inches='tight', dpi=600, transparent=False)
+    plt.savefig(f'{img_output_dir}/{product}_{start_date.strftime("%Y_%m_%d")}-{end_date.strftime("%Y_%m_%d")}.jpg', bbox_inches='tight', dpi=300, transparent=False)
     print('Done')
 
+# Create a single jpg containing all products
+print('Plotting all products to single jpg...')
+
+# Define figure size and variable to increment for subplots
+fig = plt.figure(figsize=(16, 5))
+num = 0
+
+# Iterate through every product and generate one dataset containing average concentration values
+for product, files in l3_product_files.items():
+    try:
+        L3_1W = xr.open_mfdataset(files, combine='nested', concat_dim='time', preprocess=preprocess, chunks={'time':100})
+    except Exception as error:
+        print(f'Error: {error}.')
+        continue
+    L3_1W = L3_1W.sortby('time')
+    L3_1W = L3_1W.resample(time='1D').mean(dim='time', skipna=None)
+    L3_1W_mean = L3_1W.mean(dim='time')
+    attribute = product_attributes[product][0]
+    L3_1W_col_mean = L3_1W_mean[attribute]
+
+    # Define the data to plot
+    data = L3_1W_col_mean
+
+    # Create subplots
+    num += 1
+    ax = fig.add_subplot(1, 5, num, projection=ccrs.PlateCarree())
+    ax.set_extent([95, 108, 5, 21])
+    im = data.plot.pcolormesh(ax=ax, transform=ccrs.PlateCarree(), cmap='magma_r',
+                              vmin=product_attributes[product][2], vmax=product_attributes[product][3],
+                              x='longitude', y='latitude', zorder=3)
+    im.colorbar.remove()    # (colorbar added later)
+
+    # Define coordinates of two points (for scalebar)
+    lat_A = 14 * np.pi / 180.
+    lon_A = 100 * np.pi / 180.
+    lat_B = 14 * np.pi / 180.
+    lon_B = 101 * np.pi / 180.
+
+    # Apply haversine formula (for scalebar)
+    dlat = lat_B - lat_A
+    dlon = lon_B - lon_A
+    a = np.sin(dlat / 2) ** 2 + np.cos(lat_A) * np.cos(lat_B) * np.sin(dlon / 2) ** 2
+    c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1 - a))
+    distance = 6371000 * c
+
+    # Add scalebar
+    ax.add_artist(
+        ScaleBar(dx=distance, units='m', length_fraction=0.2, location='lower right', sep=5, pad=0.3, border_pad=0.1,
+                 box_alpha=0.4, font_properties={'size': 6}))
+
+    # Add countries and boundaries
+    states_provinces = cf.NaturalEarthFeature(
+        category='cultural',
+        name='admin_0_countries',
+        scale='10m',
+        facecolor='#DEDEDE')
+    ax.add_feature(states_provinces, edgecolor='black', linewidth=0.2)
+    ax.coastlines('10m', zorder=3, linewidth=0.2)
+    ax.add_feature(cartopy.feature.BORDERS.with_scale('10m'), zorder=3, linewidth=0.2)
+
+    # Set colorbar properties
+    cbar = plt.colorbar(im, orientation='horizontal', aspect=30)
+    cbar.ax.tick_params(labelsize=6)
+    cbar.locator = plt.MaxNLocator(nbins=4)
+    cbar.set_label(fr'{product_attributes[product][1]} ({product_attributes[product][4]})', labelpad=-30, fontsize=6, loc='left')
+    cbar.outline.set_visible(False)
+
+    # Set plot frame
+    gl = ax.gridlines(draw_labels=True, xlabel_style={'size': 6}, ylabel_style={'size': 6}, linewidth=1, color='gray', alpha=0.3, linestyle=':', zorder=3)
+    gl.top_labels = False
+    gl.right_labels = False
+    gl.xformatter = LONGITUDE_FORMATTER
+    gl.yformatter = LATITUDE_FORMATTER
+
+    # Add text to subplots
+    ax.text(0, 1.07, f'Average top of {product_attributes[product][5]} {product} concentrations', fontsize=6, transform=ax.transAxes)
+    if product in offl_only_products:
+        start_date = two_weeks_ago
+        end_date = one_week_ago
+    else:
+        start_date = one_week_ago
+        end_date = current_date
+    dates_str = f'{start_date.date()} – {end_date.date()}'
+    ax.text(0, 1.02, f'Thailand, {dates_str}', fontsize=5, transform=ax.transAxes)
+
+# Add text to main plot
+fig.text(
+    -0.90, -0.4,
+    'Data: ESA Sentinel-5P / TROPOMI. Credits: Contains Copernicus data (2023) processed by GIC AIT',
+    fontsize=6, color='gray', multialignment='right', transform=ax.transAxes
+)
+
+# Save the image in the Output/ directory
+plt.savefig(f'{output_dir}/all_products.jpg', bbox_inches='tight', dpi=300, transparent=False)
+print('Done')
+
 # Get weekly output directories
-output_dir = 'Output/'
 weekly_directories = [output_dir + item for item in os.listdir(output_dir) if os.path.isdir(os.path.join(output_dir, item))]
 
 # Delete outputs that are over 8 weeks old
@@ -182,11 +278,11 @@ for directory in sorted(weekly_directories):
 
 # Create a gif
 output_files = {
-    'HCHO': [filename for filename in sorted(list(glob(join(output_dir, '**', '*HCHO*.png'), recursive=True)))],
-    'NO2': [filename for filename in sorted(list(glob(join(output_dir, '**', '*NO2*.png'), recursive=True)))],
-    'SO2': [filename for filename in sorted(list(glob(join(output_dir, '**', '*SO2*.png'), recursive=True)))],
-    'CH4': [filename for filename in sorted(list(glob(join(output_dir, '**', '*CH4*.png'), recursive=True)))],
-    'CO': [filename for filename in sorted(list(glob(join(output_dir, '**', '*CO*.png'), recursive=True)))]
+    'HCHO': [filename for filename in sorted(list(glob(join(output_dir, '**', '*HCHO*.jpg'), recursive=True)))],
+    'NO2': [filename for filename in sorted(list(glob(join(output_dir, '**', '*NO2*.jpg'), recursive=True)))],
+    'SO2': [filename for filename in sorted(list(glob(join(output_dir, '**', '*SO2*.jpg'), recursive=True)))],
+    'CH4': [filename for filename in sorted(list(glob(join(output_dir, '**', '*CH4*.jpg'), recursive=True)))],
+    'CO': [filename for filename in sorted(list(glob(join(output_dir, '**', '*CO*.jpg'), recursive=True)))]
 }
 
 images = {
