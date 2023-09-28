@@ -4,11 +4,6 @@
         <meta charset="UTF-8">
         <title>Automated Sentinel-5P Data Pipeline for Pollution Monitoring</title>
         <style>
-            img {
-                width: 30%; /* 30% for 3 images on one line */
-                margin: 1%;
-                display: inline-block;
-            }
             ul {
                 text-align: left;
                 margin-left: 0%;
@@ -38,6 +33,16 @@
                 background-color: #ffffff;
                 padding: 10px;
             }
+            .gif {
+                width: 30%; /* 30% for 3 images on one line */
+                margin: 1%;
+                display: inline-block;
+            }
+            .jpg {
+                width: 98%;
+                margin: auto;
+                display: block;
+            }
         </style>
     </head>
     <body>
@@ -54,14 +59,14 @@
             <p>
                 To streamline the process of monitoring emissions above Thailand
                 and the surrounding areas, an automatic pipeline to download, 
-                process, and visualize Sentinel-5P data is created. 
+                process, and visualize Sentinel-5P data is created.
             <p><strong>Data:</strong>
                 The atmospheric data used in this project is captured by the TROPOMI
                 instrument onboard the <a href="https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-5p">Sentinel-5P satellite</a>,  
                 part of the European Space Agency&#39;s Copernicus program.
 
             <p>
-                The following precursor and greenhouse gases are monitored:
+                The following precursor and greenhouse gases are monitored on a weekly basis:
             </p>
 
             <ul>
@@ -82,14 +87,21 @@
             </ol>
             These parts are split up into separate Python scripts (query.py, process.py, and multitemporal.py) and run consecutively to automate the entire process. 
             More detailed information for each script can be found on <a href="https://github.com/gicait/sentinel5P-automated" target="blank">GitHub</a>.
+            <p><strong>Concentrations of the previous week:</strong></p>
         </div>
 
-        <img src="Output/NO2.gif" alt="NO2">
-        <img src="Output/HCHO.gif" alt="HCHO">
-        <img src="Output/CO.gif" alt="CO">
+        <img class="jpg" src="Output/all_products.jpg" alt="All Products">        
+        
+        <div class="containerParagraph">
+        <p><strong>Previous concentrations up to 8 weeks ago:</strong></p>
+        </div>
+        
+        <img class="gif" src="Output/NO2.gif" alt="NO2">
+        <img class="gif" src="Output/HCHO.gif" alt="HCHO">
+        <img class="gif" src="Output/CO.gif" alt="CO">
         <br>
-        <img src="Output/SO2.gif" alt="SO2">
-        <img src="Output/CH4.gif" alt="CH4">
+        <img class="gif" src="Output/SO2.gif" alt="SO2">
+        <img class="gif" src="Output/CH4.gif" alt="CH4">
 
         <div class="footer">
             <p>
