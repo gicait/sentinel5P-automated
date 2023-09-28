@@ -84,7 +84,7 @@ for product, files in l3_product_files.items():
     L3_1W_col_mean = L3_1W_mean[attribute]
 
     # Plot the results
-    print(f'Plotting {product} concentration to jpg...')
+    print(f'Plotting {product} concentration to PNG...')
 
     # Define the data to plot
     data = L3_1W_col_mean
