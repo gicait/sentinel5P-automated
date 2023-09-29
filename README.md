@@ -20,6 +20,10 @@ The following precursor and greenhouse gases are monitored:
 2. Processing the downloaded Level 2 data into Level 3 data
 3. Temporally-aggregating and visualizing the L3 processed data
 
+**Live Implementation:**
+
+https://gicait.github.io/sentinel5P-automated
+
 ## Usage
 
 To execute the full processing pipeline, clone the repository, install the necessary dependencies and run [`execute.py`](execute.py). This will execute [`query.py`](query.py), [`process.py`](process.py), and [`multitemporal.py`](multitemporal.py) consecutively. The scripts can also be run manually one at a time. Make sure the scripts are all in the same folder if downloading manually. 
@@ -88,7 +92,9 @@ After processing, the L3 products are saved as NetCDF files. If it does not alre
 
 **Description:**
 
-This script takes care of averaging and visualizing the L3 processed data and should be executed after [`process.py`](process.py). The L3 product attributes, their description, value range and units are defined for the visualization. The value range may be adjusted if inadequate. The script iterates through each product, opening all product files and calculating the mean values for each cell of the attribute to be visualized. The results are plotted and saved as PNG images in the `Output/[Y_m_d]/` directory. The visualization is created using the [`cartopy`](https://github.com/SciTools/cartopy) library and can be modified based on use case/preference. By default, any `Output/[Y_m_d]/` directories older than eight weeks are deleted to save space.  The script also creates a GIF animation of previous outputs for each product in the `Output/` directory. If already present, the GIFs will be overwritten each time the script is run. By default, the eight most recent outputs are included in the GIF.
+This script takes care of averaging and visualizing the L3 processed data and should be executed after [`process.py`](process.py). The L3 product attributes, their description, value range and units are defined for the visualization. The value range may be adjusted if inadequate. The script iterates through each product, opening all product files and calculating the mean values for each cell of the attribute to be visualized. The results are plotted and saved as PNG images in the `Output/[Y_m_d]/` directory. A single JPG image containing all outputs is also created in the `Output/` directory. The visualizations are created using the [`cartopy`](https://github.com/SciTools/cartopy) library and can be modified based on use case/preference. By default, any `Output/[Y_m_d]/` directories older than eight weeks are deleted to save space.  The script also creates a GIF animation of previous outputs for each product in the `Output/` directory. If already present, the GIFs will be overwritten each time the script is run. By default, the eight most recent outputs are included in the GIF.
+
+Although not part of the main workflow, [`multitemporal_tiff.py`](multitemporal_tiff.py) can be used to output the average concentrations as GeoTIFF files for further analysis instead of PNG/JPG images. To do this, run this script after [`process.py`](process.py) instead of [`multitemporal.py`](multitemporal.py).
 
 **Third party dependencies:**
 
@@ -106,4 +112,6 @@ This script takes care of averaging and visualizing the L3 processed data and sh
 
 - It is assumed that L3 products are already processed and stored in the `Products_Processed/` directory.
 - It is assumed that L2 products are downloaded and stored in the `Products_Raw/` directory.
+
+
 
