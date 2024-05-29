@@ -2,6 +2,10 @@
 
 <img src="Output/NO2.gif" alt="Thailand NO2 concentrations" width="500"/>
 
+## NOTE 
+
+As of November 2023 the [Copernicus Open Access Hub](https://scihub.copernicus.eu/) is no longer operational. Querying products needs to be updated to work with the new [Copernicus Data Space Ecosystem](https://dataspace.copernicus.eu/analyse/apis/catalogue-apis) API.
+
 **About:** To streamline the process of monitoring emissions above Thailand and the surrounding areas, an automatic pipeline to download, process, and visualize Sentinel-5P data is created.
 
 **Data:** The atmospheric data used in this project is captured by the TROPOMI instrument onboard the [Sentinel-5P satellite](https://sentinels.copernicus.eu/web/sentinel/missions/sentinel-5p), part of the European Space Agency's Copernicus program.
